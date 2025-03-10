@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Key Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        h1 {
+            background: #ffffff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 20px;
+            text-align: center;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="keyDisplay">Generated Key will appear here</h1>
+    <button onclick="copyToClipboard()">Copy Key</button>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function generateKeyFromQueryParam(paramName) {
+            const paramValue = getQueryParam(paramName);
+            if (!paramValue) return "No key provided!";
+
+            // Example key generation (reverse + base64 encode)
+            return btoa(paramValue.split("").reverse().join(""));
+        }
+
+        function copyToClipboard() {
+            const keyText = document.getElementById("keyDisplay").innerText;
+            navigator.clipboard.writeText(keyText).then(() => {
+                alert("Key copied to clipboard!");
+            });
+        }
+
+        // Display generated key
+        document.getElementById("keyDisplay").innerText = generateKeyFromQueryParam("devid");
+    </script>
+</body>
+</html>
